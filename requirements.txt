@@ -1,4 +1,7 @@
 pandas
 torch
 nltk
+ipykernel
+spacy
+scikit-learn
 -e .
