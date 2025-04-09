@@ -58,6 +58,3 @@ if __name__=="__main__":
 
     data_transformation = DataTranformation()
     train_df,test_df,vocab_size = data_transformation.initiate_data_transformation(train_path=train_data_path,test_path=test_data_path)
-
-    model_trainer = ModelTrainer()
-    model_trainer.initiate_model_trainer(train_df,vocab_size)

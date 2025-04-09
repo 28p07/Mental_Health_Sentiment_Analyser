@@ -1,6 +1,7 @@
 import os
 import sys
 from dataclasses import dataclass
+import pickle
 
 import re
 import pandas as pd
@@ -15,12 +16,12 @@ from src.logger import logging
 
 @dataclass
 class DataTransformationConfig:
-    preprocessor_obj_file_path = os.path.join("artifacts","preprocessor.pkl")
+    word_to_index_file_path = os.path.join("artifacts","word_to_index.pkl")
 
 
 class DataTranformation:
     def __init__(self):
-        self.data_tranformation_config = DataTransformationConfig()
+        self.data_transformation_config = DataTransformationConfig()
 
     def clean(self,txt):
         if isinstance(txt,str):
@@ -49,6 +50,10 @@ class DataTranformation:
         word_to_index = {"<PAD>": 0, "<UNK>": 1}  # Padding and Unknown token
         word_to_index.update({word: idx+2 for idx, (word, _) in enumerate(word_count.most_common())})
 
+        os.makedirs(os.path.dirname(self.data_transformation_config.word_to_index_file_path), exist_ok=True)
+        with open(self.data_transformation_config.word_to_index_file_path, 'wb') as f:
+            pickle.dump(word_to_index, f)
+        
         return word_to_index
     
     def encode_sentences(self,sentence,word_to_index):
@@ -95,7 +100,7 @@ class DataTranformation:
             
             word_to_index = self.create_word_index(train_df,test_df)
             vocab_size = len(word_to_index)
-            logging.info("Created word to index")
+            logging.info("Created word to index and also saved it")
 
             for df in [train_df,test_df]:
                 df['embeddings'] = df[main_column].apply(lambda x:self.encode_sentences(x,word_to_index))
