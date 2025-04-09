@@ -94,6 +94,7 @@ class DataTranformation:
             logging.info("Cleaned text and did tokenization")
             
             word_to_index = self.create_word_index(train_df,test_df)
+            vocab_size = len(word_to_index)
             logging.info("Created word to index")
 
             for df in [train_df,test_df]:
@@ -102,7 +103,7 @@ class DataTranformation:
             
             logging.info("Embeddings created")
 
-            return train_df,test_df
+            return train_df,test_df,vocab_size
 
 
         except Exception as e:

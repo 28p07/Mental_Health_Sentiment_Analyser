@@ -8,6 +8,8 @@ from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 from src.components.data_tansformation import DataTranformation
 from src.components.data_tansformation import DataTransformationConfig
+from src.components.model_trainer import ModelTrainer
+from src.components.model_trainer import ModelTrainerConfig
 
 
 @dataclass
@@ -55,4 +57,7 @@ if __name__=="__main__":
     train_data_path,test_data_path = obj.initiate_data_ingestion()
 
     data_transformation = DataTranformation()
-    data_transformation.initiate_data_transformation(train_path=train_data_path,test_path=test_data_path)
+    train_df,test_df,vocab_size = data_transformation.initiate_data_transformation(train_path=train_data_path,test_path=test_data_path)
+
+    model_trainer = ModelTrainer()
+    model_trainer.initiate_model_trainer(train_df,vocab_size)
