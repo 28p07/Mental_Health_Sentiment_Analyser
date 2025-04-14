@@ -9,7 +9,10 @@ import nltk
 from nltk.tokenize import word_tokenize
 from collections import Counter
 
-nltk.download('punkt')
+try:
+    nltk.data.find("tokenizers/punkt")
+except LookupError:
+    nltk.download("punkt")
 
 from src.exception import CustomException
 from src.logger import logging
