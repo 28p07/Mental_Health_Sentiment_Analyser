@@ -7,9 +7,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 from src.components.data_tansformation import DataTranformation
-from src.components.data_tansformation import DataTransformationConfig
 from src.components.model_trainer import ModelTrainer
-from src.components.model_trainer import ModelTrainerConfig
+from src.components.model_evaluator import ModelEvaluator
 
 
 @dataclass
@@ -27,7 +26,7 @@ class DataIngestion:
         logging.info("Entered the ingestion method or component")
 
         try:
-            df = pd.read_csv("notebook\data.csv")
+            df = pd.read_csv(os.path.join("notebook", "data.csv"))
             logging.info("Read the dataset as dataframe")
 
             os.makedirs(os.path.dirname(self.ingestion_config.raw_data_path),exist_ok=True)
@@ -58,3 +57,8 @@ if __name__=="__main__":
 
     data_transformation = DataTranformation()
     train_df,test_df,vocab_size = data_transformation.initiate_data_transformation(train_path=train_data_path,test_path=test_data_path)
+    
+    model_evaluator = ModelEvaluator()
+    results = model_evaluator.initiate_model_evalution(test_df,vocab_size)
+    print(results)
+    

@@ -1,5 +1,6 @@
 import os
 import sys
+import numpy as np
 from dataclasses import dataclass
 
 from src.exception import CustomException
@@ -9,7 +10,6 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader,Dataset
-from sklearn.metrics import accuracy_score,classification_report,confusion_matrix
 
 @dataclass
 class ModelTrainerConfig:
@@ -25,11 +25,11 @@ class ModelTrainer:
         try:
             input = "embeddings"
             target = "status"
-            x_train = train_df[input].values
-            y_train = train_df[target].values
+            x_train = np.array(train_df[input].tolist())
+            y_train = np.array(train_df[target].tolist())
 
-            x_train = torch.tensor(list(x_train),dtype=torch.long)
-            y_train = torch.tensor(y_train,dtype=torch.long)
+            x_train = torch.tensor(x_train, dtype=torch.long)
+            y_train = torch.tensor(y_train, dtype=torch.long)
 
             class CustomDataset(Dataset):
                 def __init__(self,features,labels):
