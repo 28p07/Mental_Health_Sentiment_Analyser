@@ -50,15 +50,3 @@ class DataIngestion:
 
         except Exception as e:
             raise CustomException(e,sys)
-        
-if __name__=="__main__":
-    obj = DataIngestion()
-    train_data_path,test_data_path = obj.initiate_data_ingestion()
-
-    data_transformation = DataTranformation()
-    train_df,test_df,vocab_size = data_transformation.initiate_data_transformation(train_path=train_data_path,test_path=test_data_path)
-    
-    model_evaluator = ModelEvaluator()
-    results = model_evaluator.initiate_model_evalution(test_df,vocab_size)
-    print(results)
-    
