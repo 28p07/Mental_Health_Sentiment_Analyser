@@ -4,4 +4,6 @@ nltk
 ipykernel
 spacy
 scikit-learn
+flask
+fastapi
 -e .

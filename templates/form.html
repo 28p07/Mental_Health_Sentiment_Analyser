@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mental Health Sentiment Classifier</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            padding: 50px;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 400px;
+            margin: auto;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            resize: none;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Mental Health Sentiment Prediction</h2>
+        <textarea id="inputText" placeholder="Enter your mental health-related text here..."></textarea>
+        <br>
+        <button onclick="predictSentiment()">Predict</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function predictSentiment() {
+            const text = document.getElementById("inputText").value;
+
+            fetch("/predict", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ text: text })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById("result").innerText = "Error: " + data.error;
+                } else {
+                    document.getElementById("result").innerText = `Predicted Sentiment: ${data.sentiment}`;
+                }
+            })
+            .catch(error => {
+                document.getElementById("result").innerText = "Error: " + error;
+            });
+        }
+    </script>
+</body>
+</html>
